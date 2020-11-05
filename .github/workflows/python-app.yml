@@ -1,0 +1,41 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: CI-CD-Pipeline-AWS
+
+env:
+  EB_PACKAGE_S3_BUCKET_NAME: "myjflask"
+  EB_APPLICATION_NAME: "MyFlask"
+  EB_ENVIROMENT_NAME: "MyFlask-env"
+  DEPLOY_PACKAGE_NAME: "flask-app-${{github.sha}}.zip"
+  AWS_REGION_NAME: "ap-south-1"
+on:
+  push:
+    branches: [ master ]
+    
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  my_ci_pipeline:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Git clone our repository
+        uses: actions/checkout@v1
+      
+      - name: Create Zip deployment package
+        run: zip -r ${{env.DEPLOY_PACKAGE_NAME}} ./ -x ".git"
+        
+      - name: Configure my AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{secrets.MY_AWS_ACCESS_KEY}}
+          aws-secret-access-key: ${{secrets.MY_AWS_SECRET_KEY}}
+          aws-region: ${{env.AWS_REGION_NAME}}
+          
+      - name: Copy Deployment package to S3 bucket
+        run: aws s3 cp ${{env.DEPLOY_PACKAGE_NAME}} s3://${{env.EB_PACKAGE_S3_BUCKET_NAME}}/
+        
+      - name: print nice message on completion of CI Pipeline
+        run: echo "CI Pipeline part finished sucessfully"
+      
