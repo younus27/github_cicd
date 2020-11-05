@@ -4,10 +4,10 @@
 name: CI-CD-Pipeline-AWS
 
 env:
-  EB_PACKAGE_S3_BUCKET_NAME: "myjflask"
-  EB_APPLICATION_NAME: "Myflask"
-  EB_ENVIROMENT_NAME: "Myflask-env"
-  DEPLOY_PACKAGE_NAME: "flask-app-${{github.sha}}.zip"
+  EB_PACKAGE_S3_BUCKET_NAME: "recr.mapping.cicd"
+  EB_APPLICATION_NAME: "recr.mapping.cicd.app"
+  EB_ENVIROMENT_NAME: "Recrmappingcicdapp-env"
+  DEPLOY_PACKAGE_NAME: "flask-test-app-${{github.sha}}.zip"
   AWS_REGION_NAME: "ap-south-1"
 on:
   push:
