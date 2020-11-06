@@ -50,18 +50,11 @@ jobs:
             aws-secret-access-key: ${{secrets.MY_SECRET_KEY}}
             aws-region: ${{env.AWS_REGION_NAME}}
 
-        - name: Aws CLI
-          run:  |          
-             aws ssm label-parameter-version \
-             --name "MyStringParameter" \
-             --labels "ProductionReady" \
-             --parameter-version "2" --labels "DevelopmentReady"
-              
-              
         - name: Create ElasticBeanstalk Application Version
           run: |
             aws elasticbeanstalk create-application-version \
             --application-name ${{env.EB_APPLICATION_NAME}}\
+            --parameter-version "2" --labels "DevelopmentReady"\
             --source-bundle-S3Bucket="${{env.EB_PACKAGE_S3_BUCKET_NAME}}", S3Key="{{env.DEPLOY_PACKAGE_NAME}}"\
             --version-label "Ver-${{github.sha}}"\
             --description "CommitSHA-${{github.sha}}"
