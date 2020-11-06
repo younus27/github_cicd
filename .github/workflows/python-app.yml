@@ -54,14 +54,14 @@ jobs:
           run: |
             aws elasticbeanstalk create-application-version \
             --application-name ${{env.EB_APPLICATION_NAME}}\
-            --version-label "Ver-2"\
+            --version-label "Ver-${{github.sha}}"\
             --source-bundle-S3Bucket="${{env.EB_PACKAGE_S3_BUCKET_NAME}}", S3Key="{{env.DEPLOY_PACKAGE_NAME}}"\
             --description "CommitSHA-${{github.sha}}"
            
 
               
         - name: Deploy our Application version
-          run: aws elasticbeanstalk update-enviornment --environment-name $w{{env.EB_ENVIROMENT_NAME}} --version-label "Ver-2"
+          run: aws elasticbeanstalk update-enviornment --environment-name $w{{env.EB_ENVIROMENT_NAME}} --version-label "Ver-${{github.sha}}"
 
         - name: print nice message on completion of CD Pipeline
           run: echo "CD Pipeline part finished sucessfully"
