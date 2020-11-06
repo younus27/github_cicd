@@ -60,6 +60,7 @@ jobs:
             --description "CommitSHA-${{github.sha}}"
             --auto-create-application \
             --region=AWS_REGION_NAME
+             
            
 
               
