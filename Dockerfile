@@ -8,5 +8,6 @@ COPY . /app
 
 RUN pip install -r requirements.txt
 
-EXPOSE 5000
-CMD [ "python", "app_main.py" ]
+EXPOSE 5000 80
+#CMD [ "python", "app_main.py" ]
+CMD ["sh", "run_wsgi.sh"]
